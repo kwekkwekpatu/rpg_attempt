@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../../asteroidPy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../chirpy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../crawler" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../gokedex" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../learn-cicd-starter" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../megacorp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../project-neurodivergent" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../rust-blockchain/blockchain" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../rust-practice/cryptopals/crypto-challenge-set-1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../rustlings" vcs="Git" />
+  </component>
+</project>
