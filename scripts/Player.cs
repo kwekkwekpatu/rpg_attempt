@@ -1,11 +1,10 @@
 using Godot;
-using System;
 
 public partial class Player : CharacterBody2D
 {
 	[ExportGroup("Movement Settings")]
 	[Export]
-	public float MaxSpeed { get; set; } = 150.0f;
+	public float MaxSpeed { get; set; } = 100.0f;
 	
 	[Export]
 	public float AccelerationTime { get; set; } = 0.2f;
@@ -61,7 +60,7 @@ public partial class Player : CharacterBody2D
 		input = NormalizeInput(input);
 		
 		HandleMovement(input, delta);
-		UpdateAnimation(input);
+		UpdateAnimation();
 		MoveAndSlide();
 		
 		_lastInput = input;
@@ -117,8 +116,8 @@ public partial class Player : CharacterBody2D
 	private void UpdateFacingDirection(Vector2 input)
 	{
 		// Maybe add diagonal animations later.
-		float absX = Mathf.Abs(input.X);
-		float absY = Mathf.Abs(input.Y);
+		var absX = Mathf.Abs(input.X);
+		var absY = Mathf.Abs(input.Y);
 
 		if (absX > absY && absX > MinimumMoveThreshold)
 		{
@@ -130,18 +129,17 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void UpdateAnimation(Vector2 input)
+	private void UpdateAnimation()
 	{
-		float speedRatio = _velocity.Length() / MaxSpeed;
+		var speedRatio = _velocity.Length() / MaxSpeed;
 		
 		if (speedRatio > MinimumMoveThreshold)
 		{
-			string animationName = _currentDirection switch
+			var animationName = _currentDirection switch
 			{
 				FacingDirection.Left => "walk_side",
 				FacingDirection.Right => "walk_side",
 				FacingDirection.Up => "walk_up",
-				FacingDirection.Down => "walk_down",
 				_ => "walk_down"
 			};
 
@@ -149,7 +147,7 @@ public partial class Player : CharacterBody2D
 			
 			_animatedSprite.FlipH = _currentDirection == FacingDirection.Left;
 			
-			float targetSpeedScale = Mathf.Lerp(MinSpeedScale, MaxSpeedScale, speedRatio);
+			var targetSpeedScale = Mathf.Lerp(MinSpeedScale, MaxSpeedScale, speedRatio);
 			_animatedSprite.SpeedScale = Mathf.Lerp(
 				_animatedSprite.SpeedScale,
 				targetSpeedScale,
@@ -158,12 +156,11 @@ public partial class Player : CharacterBody2D
 		}
 		else
 		{
-			string idleAnimation = _currentDirection switch
+			var idleAnimation = _currentDirection switch
 			{
 				FacingDirection.Left => "idle_side",
 				FacingDirection.Right => "idle_side",
 				FacingDirection.Up => "idle_up",
-				FacingDirection.Down => "idle_down",
 				_ => "idle_down"
 			};
 
@@ -174,18 +171,16 @@ public partial class Player : CharacterBody2D
 	}
 	public override void _Process(double delta)
 	{
-		if (OS.IsDebugBuild())
-		{
-			string debugInfo = $"Speed: {_velocity.Length():F1}\n" +
-							 $"Direction: {_currentDirection}\n" +
-							 $"Multiplier: {_currentSpeedMultiplier:F2}\n" +
-							 $"Animation Scale: {_animatedSprite.SpeedScale:F2}";
+		if (!OS.IsDebugBuild()) return;
+		var debugInfo = $"Speed: {_velocity.Length():F1}\n" +
+						$"Direction: {_currentDirection}\n" +
+						$"Multiplier: {_currentSpeedMultiplier:F2}\n" +
+						$"Animation Scale: {_animatedSprite.SpeedScale:F2}";
 			
-			var debugLabel = GetNodeOrNull<Label>("DebugLabel");
-			if (debugLabel != null)
-			{
-				debugLabel.Text = debugInfo;
-			}
+		var debugLabel = GetNodeOrNull<Label>("DebugLabel");
+		if (debugLabel != null)
+		{
+			debugLabel.Text = debugInfo;
 		}
 	}
 }
